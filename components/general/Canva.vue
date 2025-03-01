@@ -82,7 +82,6 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="drawing-container">
     <canvas
       ref="canvasRef"
       width="400"
@@ -96,53 +95,19 @@ onBeforeUnmount(() => {
       @touchmove="draw"
       @touchend="stopDrawing"
     ></canvas>
-    <div class="inner-box">
-    <button @click="clearCanvas" >CLEAR</button>
-    <button @click="clearCanvas" style="background-color: #0066CC;">SUBMIT</button>
-    </div>
-  </div>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
-.drawing-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .drawing-canvas {
   border: 10px solid #292929;
-  cursor: url('../../static/dot_cursor.png') 16 16, auto;
+  cursor: default;
   touch-action: none; /* Prevent touch gestures like scrolling */
 }
 .inner-box{
   display: flex;
 }
-button {
-  margin: 3%;
-  padding: 3% 5%;
-  font-size: 16px;
-  background-color: #292929;
-  color: #f5f5f5;
-  cursor: pointer;
-  font-family: "Lexend Deca", serif;
-  font-optical-sizing: auto;
-  border: none;
-  border-radius: 5px; /* Rounded corners */
-  transition: all 0.2s ease-in-out; /* Smooth transition */
-}
 
-/* Hover Effect */
-button:hover {
-  background-color: #3a3a3a; /* Slightly lighter */
-  transform: scale(1.05); /* Slightly enlarges */
-}
-
-/* Press Animation */
-button:active {
-  transform: scale(0.95); /* Shrinks slightly */
-  background-color: #1f1f1f; /* Darkens on press */
-}
 
 </style>

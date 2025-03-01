@@ -1,33 +1,81 @@
 <script setup>
-import Canva from '~/components/general/Canva.vue';
+import { ref } from "vue";
+import Canva from "~/components/general/Canva.vue";
+
 const Container = [
-    ["#FF5733", "#C70039", "#900C3F", "#581845"],
-    ["#FFC300", "#FF5733", "#C70039", "#900C3F"],
-    ["#DAF7A6", "#FFC300", "#FF5733", "#C70039"],
-    ["#33FF57", "#DAF7A6", "#FFC300", "#FF5733"]
-]
+    "background-color: #FF5733", "background-color:#C70039", "background-color:#900C3F", "background-color:#581845",
+    "background-color:#FFC300", "background-color:#FF5733", "background-color:#C70039", "background-color:#900C3F",
+    "background-color:#DAF7A6", "background-color:#FFC300", "background-color:#FF5733", "background-color:#C70039",
+    "background-color:#33FF57", "background-color:#DAF7A6", "background-color:#FFC300", "background-color:#FF5733"
+];
+
+
+const sliderValue = ref(50); // Default position (centered)
+const isDragging = ref(false); // Track if the user is dragging the thumb
+
+// Start dragging
+const startDrag = (e) => {
+    isDragging.value = true;
+    updateSliderPosition(e);
+};
+
+// Stop dragging
+const stopDrag = () => {
+    isDragging.value = false;
+};
+
+// Update slider position based on mouse/touch movement
+const updateSliderPosition = (e) => {
+    if (!isDragging.value) return;
+
+    const slider = e.target.closest('.relative');
+    const rect = slider.getBoundingClientRect();
+    const offsetY = e.clientY - rect.top; // Get the Y-coordinate of the mouse inside the slider
+
+    // Update slider value based on the Y-coordinate
+    sliderValue.value = Math.min(100, Math.max(0, (offsetY / rect.height) * 100));
+};
+
+// Bind events
+const handleMouseMove = (e) => {
+    updateSliderPosition(e);
+};
 
 const sliderval = ref(5);
 </script>
 
 <template>
 
-    <div class="mt-5 mb-1 text-center text-[#292929] font-[Lexend Deca, serif]">Todays Prompt</div>
-    <div class="text-center text-[#292929] text-3xl">"Theme"</div>
-    <hr class="h-[3px] w-[80%] m-[40px] rounded-[10px]">
-    <div class="flex content-center">
-        <Canva :brushsize="sliderval"/>
-        <div>
-        </div>
-            <div>
-                <input type="range" min="0" max="10" v-model="sliderval" class="slider" id="mySlider">
-            </div>
-            <h1>{{sliderval}}</h1>
-        </div>
-        <div>
-                <div v-for="(value, index) in Container" :key="index" class="flex items-center">
-                    <button v-for="(value_, in_) in value" :key="in_" class="w-[75px] h-[75px] m-[5px]" :style="{ backgroundColor: value_ }"/>
+    <body class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="w-[600px] bg-white shadow-lg p-6 text-center rounded-lg">
+            <!-- Title Section -->
+            <h2 class="font-bold text-lg">Today's Prompt</h2>
+            <p class="text-xl font-semibold">“Today's Prompt”</p>
 
+            <!-- Canva Component -->
+            <div class="flex item-center justify-center">
+            <Canva/>
             </div>
-    </div>
+            <!-- Main Content Section -->
+            <div class="flex mt-6 gap-6 items-center justify-center">
+                <!-- Grid Section -->
+                <div class="grid grid-cols-4 grid-rows-4 p-1 gap-1 w-60 h-60 border-4 border-black rounded-lg">
+                    <div v-for="(value, index) in Container" :key="index"
+                        class="w-full h-full border-4 border-black rounded-md" :style="value">
+                    </div>
+                </div>
+                <div>
+                    slider
+                </div>
+                <div class="flex flex-col gap-30">
+                    <button class="p-3 text-[16px] bg-[#292929] text-[#f5f5f5] cursor-pointer font-bold text-lg rounded-md transition-all duration-200 ease-in-out hover:bg-[#3a3a3a] hover:scale-[1.05] active:scale-[0.95] active:bg-[#1f1f1f]">
+                        CLEAR
+                    </button>
+                    <button class="p-3 text-[16px] bg-[#292929] text-[#f5f5f5] cursor-pointer font-bold text-lg rounded-md transition-all duration-200 ease-in-out hover:bg-[#3a3a3a] hover:scale-[1.05] active:scale-[0.95] active:bg-[#1f1f1f]">
+                        SUBMIT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </body>
 </template>
