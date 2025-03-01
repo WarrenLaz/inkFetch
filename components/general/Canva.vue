@@ -1,6 +1,14 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
+
+const props = defineProps({
+  brushsize : {
+    type: Number,
+    default : 5
+  }
+});
+
 // Reference to the canvas element
 const canvasRef = ref(null);
 const isDrawing = ref(false);
@@ -62,7 +70,7 @@ const clearCanvas = () => {
 onMounted(() => {
   const canvas = canvasRef.value;
   context.value = canvas.getContext("2d");
-  context.value.lineWidth = 5;
+  context.value.lineWidth = props.brushsize;
   context.value.lineCap = "round";
   context.value.strokeStyle = "black"; // Default stroke color
 });

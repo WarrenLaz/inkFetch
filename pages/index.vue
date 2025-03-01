@@ -1,133 +1,33 @@
 <script setup>
 import Canva from '~/components/general/Canva.vue';
-import Colors from '~/components/general/Colors.vue';
+const Container = [
+    ["#FF5733", "#C70039", "#900C3F", "#581845"],
+    ["#FFC300", "#FF5733", "#C70039", "#900C3F"],
+    ["#DAF7A6", "#FFC300", "#FF5733", "#C70039"],
+    ["#33FF57", "#DAF7A6", "#FFC300", "#FF5733"]
+]
 
+const sliderval = ref(5);
 </script>
 
 <template>
-    <div class="theme">Todays Prompt</div>
-    <div class="prompt">"A guy attempts to smuggle cocaine into Amsterdam in/under his hair"</div>
-    <hr>
-    <div class="inner">
-        <Canva />
+
+    <div class="mt-5 mb-1 text-center text-[#292929] font-[Lexend Deca, serif]">Todays Prompt</div>
+    <div class="text-center text-[#292929] text-3xl">"Theme"</div>
+    <hr class="h-[3px] w-[80%] m-[40px] rounded-[10px]">
+    <div class="flex content-center">
+        <Canva :brushsize="sliderval"/>
         <div>
-            <Colors />
-            <div>
-                <input type="range" min="0" max="100"  class="slider" id="mySlider">
-            </div>
         </div>
-        
+            <div>
+                <input type="range" min="0" max="10" v-model="sliderval" class="slider" id="mySlider">
+            </div>
+            <h1>{{sliderval}}</h1>
+        </div>
+        <div>
+                <div v-for="(value, index) in Container" :key="index" class="flex items-center">
+                    <button v-for="(value_, in_) in value" :key="in_" class="w-[75px] h-[75px] m-[5px]" :style="{ backgroundColor: value_ }"/>
+
+            </div>
     </div>
 </template>
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
-.slider-container {
-      width: 80%;
-      margin: 50px auto;
-      text-align: center;
-    }
-
-    /* Style the slider itself (boxy look) */
-    .slider {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 20px; /* Make it taller for a more boxy feel */
-      background: #ccc; /* Light gray background */
-      border: 2px solid #888; /* Border to make it look boxy */
-      border-radius: 5px; /* Slight rounding of the corners */
-      outline: none;
-      transition: background 0.3s ease;
-    }
-
-    .slider:hover {
-      background: #bbb; /* Slightly darker when hovered */
-    }
-
-    /* Style the thumb (boxy style) */
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px; /* Square thumb */
-      height: 20px; /* Square thumb */
-      border: 2px solid #292929; /* Boxy border for the thumb */
-      background: #292929; /* Green color for the thumb */
-      cursor: pointer;
-      border-radius: 0px; /* Square corners */
-    }
-
-    .slider::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border: 2px solid #888;
-      background: #4CAF50;
-      cursor: pointer;
-      border-radius: 0px; /* Square corners */
-    }
-
-    /* Display the value of the slider */
-    .slider-value {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #292929;
-    }
-.inner-container {
-    display: flex;
-    align-items: center;
-}
-
-.color-container {
-    width: 75px;
-    height: 75px;
-    margin: 5px;
-    background-color: black;
-}
-
-.inner {
-    display: flex;
-    justify-content: center;
-    /* Horizontally center the children */
-
-}
-
-.theme {
-    margin-top: 5%;
-    margin-bottom: 1%;
-    text-align: center;
-    color: #292929;
-    ;
-    cursor: pointer;
-    font-family: "Lexend Deca", serif;
-    font-optical-sizing: auto;
-    font-weight: bold;
-}
-
-.prompt {
-    margin-top: 1%;
-    margin-bottom: -1%;
-    text-align: center;
-    color: #292929;
-    cursor: pointer;
-    font-family: "Lexend Deca", serif;
-    font-weight: bold;
-    font-size: 3vw;
-}
-
-hr {
-    border: none;
-    /* Remove the default border */
-    height: 3px;
-    /* Set the thickness of the line */
-    background: linear-gradient(to right, #000, #292929);
-    /* Gradient effect from pink to orange */
-    width: 80%;
-    /* Line width */
-    margin: 40px auto;
-    /* Center the line and add some vertical space */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Subtle shadow below the line */
-    border-radius: 10px;
-    /* Rounded corners for the line */
-}
-</style>
